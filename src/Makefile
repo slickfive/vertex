@@ -2,19 +2,20 @@ CC=g++ -g
 CFLGAS=-Wall -Werror -Wextra -Wno-unsed
 BOOST_INCL=/usr/local/include
 BOOST_LIB=/usr/local/lib
+OBJDIR=obj
 
 LDFLAGS=-L$(BOOST_LIB) -lboost_system -lpthread -lboost_thread
 
 APP_NAME=vertex
 
-OBJ=../obj
+OBJ=../$(OBJDIR)
 INCLUDE=../include
 INCL=-I$(BOOST_INCL) -I$(INCLUDE)
 
 OBJECTS= \
 	$(OBJ)/IxI.o
 
-all: build_version vertex
+all: dir build_version vertex
 
 $(OBJ)/%.o: %.cpp $(INCLUDE)/%.hpp
 	$(CC) -c $(CFLAGS) $(INCL) $< -o $@
@@ -28,3 +29,5 @@ clean:
 build_version:
 	rm -f $(INCLUDE)/build_version.h;echo "#define __APP_VERSION__  \"$(APP_NAME) - Revision `    git describe`\" "  > $(INCLUDE)/build_version.h 
 	
+dir:
+	mkdir -p ../$(OBJDIR)
